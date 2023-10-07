@@ -79,8 +79,13 @@ const FileUpload = () => {
                 <AiOutlineCloudDownload
                   size={25}
                   onClick={() => downloadFile(file)}
+                  color="green"
                 />
-                <AiFillDelete size={20} onClick={() => deleteFile(file)} />
+                <AiFillDelete
+                  opacity="60%"
+                  size={20}
+                  onClick={() => deleteFile(file)}
+                />
               </div>
             </li>
           ))}
