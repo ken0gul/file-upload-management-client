@@ -63,12 +63,12 @@ const FileUpload = () => {
         )}
       </div>
       <ProgressBar />
-      <ul>
+      <ul className="w-72">
         {localFiles &&
           localFiles?.map((file, index) => (
             <li
               key={index}
-              className="flex items-center justify-between gap-2 cursor-pointer"
+              className="flex items-center  justify-between gap-2 cursor-pointer"
             >
               <div className="flex gap-2">
                 <FcCheckmark size={20} />
@@ -79,7 +79,7 @@ const FileUpload = () => {
                   size={25}
                   onClick={() => downloadFile(file)}
                 />
-                <AiFillDelete onClick={() => deleteFile(file)} />
+                <AiFillDelete size={20} onClick={() => deleteFile(file)} />
               </div>
             </li>
           ))}

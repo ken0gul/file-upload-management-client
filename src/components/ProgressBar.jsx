@@ -6,7 +6,7 @@ const ProgressBar = () => {
   return (
     <div>
       {uploadProgress > 0 && (
-        <div className="w-80 border-2 relative mb-12 rounded-md bg-slate-100">
+        <div className="w-80  relative mb-12 rounded-md bg-slate-100">
           <p className="text-white z-10 absolute translate-x-[350%] translate-y-1">
             {uploadProgress}%
           </p>
