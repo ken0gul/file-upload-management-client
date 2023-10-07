@@ -69,11 +69,15 @@ const FileUpload = () => {
           localFiles?.map((file, index) => (
             <li
               key={index}
-              className="flex items-center  justify-between gap-2 cursor-pointer"
+              className="flex items-center   justify-between gap-2 cursor-pointer"
             >
               <div className="flex gap-2">
                 <FcCheckmark size={20} />
-                {file.split("*")[1]}
+                <span>
+                  {file.split("*")[1].split(".")[0].substring(0, 20) +
+                    "." +
+                    file.split("*")[1].split(".")[1]}
+                </span>
               </div>
               <div className="flex items-center gap-1">
                 <AiOutlineCloudDownload
