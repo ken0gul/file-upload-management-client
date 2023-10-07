@@ -53,10 +53,10 @@ export const FileContextProvider = ({ children }) => {
             const progress = onUploadProgress(progressEvent);
             setUploadProgress(progress);
             setIsUploadComplete(true);
-            getAllFiles();
           },
         }
       );
+      getAllFiles();
 
       setIsUploadComplete(false);
       return response.data;
