@@ -18,7 +18,6 @@ const FileUpload = () => {
     setLocalFiles(files);
   }, [files]);
   const downloadFile = async (fileName) => {
-    console.log(fileName);
     const response = await axios.get(
       `https://file-upload-management-api-production.up.railway.app/api/file/download/${fileName}`,
       { responseType: "arraybuffer" }
@@ -47,7 +46,7 @@ const FileUpload = () => {
     multiple: true,
   });
   return (
-    <div className=" flex justify-center items-center flex-col">
+    <div className=" flex justify-start bg-slate-100 items-center h-screen flex-col">
       <div
         {...getRootProps()}
         className={`border-dashed border-4 p-4 rounded-lg mt-10 m-10 ${
