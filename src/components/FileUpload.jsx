@@ -44,6 +44,7 @@ const FileUpload = () => {
     onDrop: (acceptedFiles) => {
       onFileUpload(acceptedFiles);
     },
+    multiple: true,
   });
   return (
     <div className=" flex justify-center items-center flex-col">
