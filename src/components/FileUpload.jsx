@@ -7,20 +7,16 @@ import { AiOutlineCloudDownload, AiFillDelete } from "react-icons/ai";
 import axios from "axios";
 
 const FileUpload = () => {
-  const {
-    uploadFiles,
-    getAllFiles,
-    files,
-    uploadProgress,
-    isUploadComplete,
-    isDeletionComplete,
-    deleteFile,
-  } = useFileContext();
+  const { uploadFiles, files, deleteFile, getAllFiles } = useFileContext();
+  const [localFiles, setLocalFiles] = useState([]);
 
   useEffect(() => {
     getAllFiles();
-  }, [isDeletionComplete, isUploadComplete]);
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    setLocalFiles(files);
+  }, [files]);
   const downloadFile = async (fileName) => {
     console.log(fileName);
     const response = await axios.get(
@@ -68,8 +64,8 @@ const FileUpload = () => {
       </div>
       <ProgressBar />
       <ul>
-        {files &&
-          files?.map((file, index) => (
+        {localFiles &&
+          localFiles?.map((file, index) => (
             <li
               key={index}
               className="flex items-center justify-between gap-2 cursor-pointer"

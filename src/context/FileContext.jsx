@@ -53,6 +53,7 @@ export const FileContextProvider = ({ children }) => {
             const progress = onUploadProgress(progressEvent);
             setUploadProgress(progress);
             setIsUploadComplete(true);
+            getAllFiles();
           },
         }
       );
@@ -65,10 +66,12 @@ export const FileContextProvider = ({ children }) => {
   };
   const deleteFile = async (fileName) => {
     setIsDeletionComplete(false);
-    const response = await axios.delete(
+    await axios.delete(
       "https://file-upload-management-api-production.up.railway.app/api/file/delete/" +
         fileName
     );
+    getAllFiles();
+
     setIsDeletionComplete(true);
   };
   const values = {
