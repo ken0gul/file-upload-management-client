@@ -7,7 +7,9 @@ const FileContext = createContext();
 export const useFileContext = () => useContext(FileContext);
 
 export const FileContextProvider = ({ children }) => {
+  const [files, setFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadComplete, setUploadComplete] = useState(false);
 
   const onUploadProgress = (progressEvent) => {
     const progress = Math.round(
@@ -17,6 +19,18 @@ export const FileContextProvider = ({ children }) => {
     // setUploadProgress(progress); // Update the progress state
   };
 
+  const getAllFiles = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:8080/api/file/getAllFiles"
+      );
+      if (result) {
+        setFiles(result.data);
+      }
+    } catch (error) {
+      console.log("No files found");
+    }
+  };
   const uploadFiles = async (files) => {
     try {
       const formData = new FormData();
@@ -35,10 +49,12 @@ export const FileContextProvider = ({ children }) => {
           onUploadProgress: (progressEvent) => {
             const progress = onUploadProgress(progressEvent);
             setUploadProgress(progress);
+            setUploadComplete(true);
           },
         }
       );
 
+      setUploadComplete(false);
       return response.data;
     } catch (error) {
       console.log("Could not upload file!", error);
@@ -48,6 +64,9 @@ export const FileContextProvider = ({ children }) => {
   const values = {
     uploadFiles,
     uploadProgress,
+    getAllFiles,
+    files,
+    uploadComplete,
   };
 
   return <FileContext.Provider value={values}>{children}</FileContext.Provider>;
