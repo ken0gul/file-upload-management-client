@@ -9,7 +9,8 @@ export const useFileContext = () => useContext(FileContext);
 export const FileContextProvider = ({ children }) => {
   const [files, setFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadComplete, setUploadComplete] = useState(false);
+  const [isUploadComplete, setIsUploadComplete] = useState(false);
+  const [isDeletionComplete, setIsDeletionComplete] = useState(false);
 
   const onUploadProgress = (progressEvent) => {
     const progress = Math.round(
@@ -22,7 +23,7 @@ export const FileContextProvider = ({ children }) => {
   const getAllFiles = async () => {
     try {
       const result = await axios.get(
-        "http://localhost:8080/api/file/getAllFiles"
+        "https://file-upload-management-api-production.up.railway.app/api/file/getAllFiles"
       );
       if (result) {
         setFiles(result.data);
@@ -32,6 +33,8 @@ export const FileContextProvider = ({ children }) => {
     }
   };
   const uploadFiles = async (files) => {
+    setIsUploadComplete(false);
+
     try {
       const formData = new FormData();
 
@@ -40,7 +43,7 @@ export const FileContextProvider = ({ children }) => {
       });
 
       const response = await axios.post(
-        "http://localhost:8080/api/file/upload",
+        "https://file-upload-management-api-production.up.railway.app/api/file/upload",
         formData,
         {
           headers: {
@@ -49,24 +52,33 @@ export const FileContextProvider = ({ children }) => {
           onUploadProgress: (progressEvent) => {
             const progress = onUploadProgress(progressEvent);
             setUploadProgress(progress);
-            setUploadComplete(true);
+            setIsUploadComplete(true);
           },
         }
       );
 
-      setUploadComplete(false);
+      setIsUploadComplete(false);
       return response.data;
     } catch (error) {
       console.log("Could not upload file!", error);
     }
   };
-
+  const deleteFile = async (fileName) => {
+    setIsDeletionComplete(false);
+    const response = await axios.delete(
+      "https://file-upload-management-api-production.up.railway.app/api/file/delete/" +
+        fileName
+    );
+    setIsDeletionComplete(true);
+  };
   const values = {
     uploadFiles,
     uploadProgress,
     getAllFiles,
     files,
-    uploadComplete,
+    isUploadComplete,
+    deleteFile,
+    isDeletionComplete,
   };
 
   return <FileContext.Provider value={values}>{children}</FileContext.Provider>;

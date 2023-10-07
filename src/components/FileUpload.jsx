@@ -3,20 +3,28 @@ import { useDropzone } from "react-dropzone";
 import { useFileContext } from "../context/FileContext";
 import ProgressBar from "./ProgressBar";
 import { FcCheckmark } from "react-icons/fc";
+import { AiOutlineCloudDownload, AiFillDelete } from "react-icons/ai";
 import axios from "axios";
 
 const FileUpload = () => {
-  const { uploadFiles, getAllFiles, files, uploadProgress, uploadComplete } =
-    useFileContext();
+  const {
+    uploadFiles,
+    getAllFiles,
+    files,
+    uploadProgress,
+    isUploadComplete,
+    isDeletionComplete,
+    deleteFile,
+  } = useFileContext();
 
   useEffect(() => {
     getAllFiles();
-  }, [uploadComplete]);
+  }, [isDeletionComplete, isUploadComplete]);
 
   const downloadFile = async (fileName) => {
     console.log(fileName);
     const response = await axios.get(
-      `http://localhost:8080/api/file/download/${fileName}`,
+      `https://file-upload-management-api-production.up.railway.app/api/file/download/${fileName}`,
       { responseType: "arraybuffer" }
     );
 
@@ -31,6 +39,7 @@ const FileUpload = () => {
     URL.revokeObjectURL(url);
     return url;
   };
+
   const onFileUpload = (acceptedFiles) => {
     uploadFiles(acceptedFiles);
   };
@@ -59,16 +68,23 @@ const FileUpload = () => {
       </div>
       <ProgressBar />
       <ul>
-        <h2 className="font-semibold italic mb-2">Click to download</h2>
         {files &&
           files?.map((file, index) => (
             <li
               key={index}
-              onClick={() => downloadFile(file)}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center justify-between gap-2 cursor-pointer"
             >
-              <FcCheckmark size={20} />
-              {file.split("*")[1]}
+              <div className="flex gap-2">
+                <FcCheckmark size={20} />
+                {file.split("*")[1]}
+              </div>
+              <div className="flex items-center gap-1">
+                <AiOutlineCloudDownload
+                  size={25}
+                  onClick={() => downloadFile(file)}
+                />
+                <AiFillDelete onClick={() => deleteFile(file)} />
+              </div>
             </li>
           ))}
       </ul>
