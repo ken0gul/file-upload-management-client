@@ -3,13 +3,15 @@ import { useDropzone } from "react-dropzone";
 import { useFileContext } from "../context/FileContext";
 import ProgressBar from "./ProgressBar";
 import { FcCheckmark } from "react-icons/fc";
+import { RxDragHandleDots2 } from "react-icons/rx";
 import { AiOutlineCloudDownload, AiFillDelete } from "react-icons/ai";
 import axios from "axios";
 
 const FileUpload = () => {
-  const { uploadFiles, files, deleteFile, getAllFiles } = useFileContext();
+  const { uploadFiles, files, deleteFile, getAllFiles, setFiles } =
+    useFileContext();
   const [localFiles, setLocalFiles] = useState([]);
-
+  const [draggedItem, setDraggedItem] = useState(null);
   useEffect(() => {
     getAllFiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -17,6 +19,26 @@ const FileUpload = () => {
   useEffect(() => {
     setLocalFiles(files);
   }, [files]);
+
+  const handleDragStart = (e, item) => {
+    setDraggedItem(item);
+  };
+  const handleDragEnter = (e, targetItem) => {
+    if (draggedItem === null) return;
+
+    // create a shallow copy of your localFiles
+    const newItems = [...localFiles];
+
+    const draggedIndex = localFiles.findIndex((item) => item === draggedItem);
+    const targetIndex = localFiles.findIndex((item) => item === targetItem);
+
+    newItems.splice(draggedIndex, 1);
+    newItems.splice(targetIndex, 0, draggedItem);
+
+    setLocalFiles(newItems);
+    setFiles(newItems);
+    setDraggedItem(null);
+  };
   const downloadFile = async (fileName) => {
     const response = await axios.get(
       `https://file-upload-management-api-production.up.railway.app/api/file/download/${fileName}`,
@@ -68,12 +90,22 @@ const FileUpload = () => {
           localFiles?.map((file, index) => (
             <li
               key={index}
+              draggable
+              onDragStart={(e) => handleDragStart(e, file)}
+              onDragEnter={(e) => handleDragEnter(e, file)}
+              style={{
+                transform:
+                  draggedItem && draggedItem === file
+                    ? "translateY(-10px)" // Adjust the animation effect as needed
+                    : "none",
+                background: draggedItem && draggedItem === file ? "gray" : "",
+              }}
               className="flex items-center   justify-between gap-2 cursor-pointer"
             >
               <div className="flex gap-2">
                 <FcCheckmark size={20} />
                 <span>
-                  {file.split("*")[1].split(".")[0].substring(0, 20) +
+                  {file.split("*")[1].split(".")[0].substring(0, 15) +
                     "." +
                     file.split("*")[1].split(".")[1]}
                 </span>
@@ -89,6 +121,7 @@ const FileUpload = () => {
                   size={20}
                   onClick={() => deleteFile(file)}
                 />
+                <RxDragHandleDots2 size={20} />
               </div>
             </li>
           ))}

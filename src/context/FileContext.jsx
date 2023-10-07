@@ -82,6 +82,7 @@ export const FileContextProvider = ({ children }) => {
     isUploadComplete,
     deleteFile,
     isDeletionComplete,
+    setFiles,
   };
 
   return <FileContext.Provider value={values}>{children}</FileContext.Provider>;
