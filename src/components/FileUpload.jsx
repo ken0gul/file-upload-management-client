@@ -87,8 +87,9 @@ const FileUpload = () => {
         )}
       </div>
       <ProgressBar />
-      <p className="text-md">Total size: {totalSize}MB</p>
-      <ul className="w-72 ">
+      <p className="text-md">Total: {totalSize}MB</p>
+      <p className="text-md">Remaning: {(15.0 - totalSize).toFixed(2)}MB</p>
+      <ul className="w-72 h-screen overflow-scroll ">
         {localFiles &&
           localFiles?.map((file, index) => (
             <li
