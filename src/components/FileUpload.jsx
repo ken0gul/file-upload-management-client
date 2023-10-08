@@ -89,7 +89,7 @@ const FileUpload = () => {
       <ProgressBar />
       <p className="text-md">Total: {totalSize}MB</p>
       <p className="text-md">Remaning: {(15.0 - totalSize).toFixed(2)}MB</p>
-      <ul className="w-72 h-screen overflow-scroll ">
+      <ul className="w-96 h-screen overflow-scroll p-2 ">
         {localFiles &&
           localFiles?.map((file, index) => (
             <li
@@ -118,12 +118,13 @@ const FileUpload = () => {
                 <AiOutlineCloudDownload
                   size={25}
                   onClick={() => downloadFile(file)}
-                  color="green"
+                  className="text-green-600 hover:text-red-100"
                 />
                 <AiFillDelete
                   opacity="60%"
                   size={20}
                   onClick={() => deleteFile(file)}
+                  className="hover:text-slate-600"
                 />
                 <RxDragHandleDots2 size={20} />
               </div>
