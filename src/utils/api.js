@@ -14,7 +14,7 @@ export const uploadFiles = async (files) => {
     });
 
     const response = await axios.post(
-      "https://file-upload-cloud-production.up.railway.app/api/file/upload",
+      "https://file-upload-management-api-production.up.railway.app/api/file/upload",
       formData,
       {
         headers: {

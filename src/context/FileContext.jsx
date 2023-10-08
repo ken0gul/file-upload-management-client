@@ -24,7 +24,7 @@ export const FileContextProvider = ({ children }) => {
   const getAllFiles = async () => {
     try {
       const result = await axios.get(
-        "https://file-upload-cloud-production.up.railway.app/api/file/getAllFiles"
+        "https://file-upload-management-api-production.up.railway.app/api/file/getAllFiles"
       );
       if (result) {
         setFiles(result.data);
@@ -46,7 +46,7 @@ export const FileContextProvider = ({ children }) => {
       });
 
       const response = await axios.post(
-        "https://file-upload-cloud-production.up.railway.app/api/file/upload",
+        "https://file-upload-management-api-production.up.railway.app/api/file/upload",
         formData,
         {
           headers: {
@@ -70,7 +70,7 @@ export const FileContextProvider = ({ children }) => {
   const deleteFile = async (fileName) => {
     setIsDeletionComplete(false);
     await axios.delete(
-      "https://file-upload-cloud-production.up.railway.app/api/file/delete/" +
+      "https://file-upload-management-api-production.up.railway.app/api/file/delete/" +
         fileName
     );
     getAllFiles();
@@ -81,7 +81,7 @@ export const FileContextProvider = ({ children }) => {
   const getSingleFileInfo = async (fileName) => {
     try {
       const response = await axios.get(
-        "https://file-upload-cloud-production.up.railway.app/api/file/getFileInfo/" +
+        "https://file-upload-management-api-production.up.railway.app/api/file/getFileInfo/" +
           fileName
       );
       if (response?.data) {
@@ -93,7 +93,7 @@ export const FileContextProvider = ({ children }) => {
   const getTotalSize = async () => {
     try {
       const response = await axios.get(
-        "https://file-upload-cloud-production.up.railway.app/api/file/getTotalSize"
+        "https://file-upload-management-api-production.up.railway.app/api/file/getTotalSize"
       );
       const roundedTotal = (response.data / 1024.0 / 1000.0).toFixed(2);
       return roundedTotal;
