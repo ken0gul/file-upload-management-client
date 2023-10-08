@@ -8,7 +8,7 @@ import { AiOutlineCloudDownload, AiFillDelete } from "react-icons/ai";
 import axios from "axios";
 
 const FileUpload = () => {
-  const { uploadFiles, files, deleteFile, getAllFiles, setFiles } =
+  const { uploadFiles, files, deleteFile, getAllFiles, setFiles, totalSize } =
     useFileContext();
   const [localFiles, setLocalFiles] = useState([]);
   const [draggedItem, setDraggedItem] = useState(null);
@@ -42,7 +42,7 @@ const FileUpload = () => {
   };
   const downloadFile = async (fileName) => {
     const response = await axios.get(
-      `https://file-upload-management-api-production.up.railway.app/api/file/download/${fileName}`,
+      `https://file-upload-cloud-production.up.railway.app//api/file/download/${fileName}`,
       { responseType: "arraybuffer" }
     );
 
@@ -87,6 +87,7 @@ const FileUpload = () => {
         )}
       </div>
       <ProgressBar />
+      <p className="text-md">Total size: {totalSize}MB</p>
       <ul className="w-72 ">
         {localFiles &&
           localFiles?.map((file, index) => (

@@ -8,6 +8,7 @@ export const useFileContext = () => useContext(FileContext);
 
 export const FileContextProvider = ({ children }) => {
   const [files, setFiles] = useState([]);
+  const [totalSize, setTotalSize] = useState(0);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploadComplete, setIsUploadComplete] = useState(false);
   const [isDeletionComplete, setIsDeletionComplete] = useState(false);
@@ -23,8 +24,10 @@ export const FileContextProvider = ({ children }) => {
   const getAllFiles = async () => {
     try {
       const result = await axios.get(
-        "https://file-upload-management-api-production.up.railway.app/api/file/getAllFiles"
+        "https://file-upload-cloud-production.up.railway.app//api/file/getAllFiles"
       );
+      const totalSize = await getTotalSize();
+      setTotalSize(totalSize);
       if (result) {
         setFiles(result.data);
       }
@@ -43,7 +46,7 @@ export const FileContextProvider = ({ children }) => {
       });
 
       const response = await axios.post(
-        "https://file-upload-management-api-production.up.railway.app/api/file/upload",
+        "https://file-upload-cloud-production.up.railway.app//api/file/upload",
         formData,
         {
           headers: {
@@ -67,7 +70,7 @@ export const FileContextProvider = ({ children }) => {
   const deleteFile = async (fileName) => {
     setIsDeletionComplete(false);
     await axios.delete(
-      "https://file-upload-management-api-production.up.railway.app/api/file/delete/" +
+      "https://file-upload-cloud-production.up.railway.app//api/file/delete/" +
         fileName
     );
     getAllFiles();
@@ -78,13 +81,25 @@ export const FileContextProvider = ({ children }) => {
   const getSingleFileInfo = async (fileName) => {
     try {
       const response = await axios.get(
-        "https://file-upload-management-api-production.up.railway.app/api/file/getFileInfo/" +
+        "https://file-upload-cloud-production.up.railway.app//api/file/getFileInfo/" +
           fileName
       );
       if (response?.data) {
         return response.data;
       }
     } catch (error) {}
+  };
+
+  const getTotalSize = async () => {
+    try {
+      const response = await axios.get(
+        "https://file-upload-cloud-production.up.railway.app//api/file/getTotalSize"
+      );
+      const roundedTotal = (response.data / 1024.0 / 1000.0).toFixed(2);
+      return roundedTotal;
+    } catch (error) {
+      console.log("Could not get total size", error);
+    }
   };
 
   const values = {
@@ -97,6 +112,7 @@ export const FileContextProvider = ({ children }) => {
     isDeletionComplete,
     setFiles,
     getSingleFileInfo,
+    totalSize,
   };
 
   return <FileContext.Provider value={values}>{children}</FileContext.Provider>;
