@@ -86,7 +86,7 @@ const FileUpload = () => {
       </div>
       <ProgressBar />
       <p className="text-md">Total: {totalSize}MB</p>
-      <p className="text-md">Remaning: {(15.0 - totalSize).toFixed(2)}MB</p>
+      <p className="text-md">Remaning: {(15.0 - totalSize).toFixed(2)}GB</p>
       <FileList
         localFiles={localFiles}
         handleDragEnter={handleDragEnter}
