@@ -12,7 +12,7 @@ const FileList = ({
   deleteFile,
 }) => {
   return (
-    <ul className="w-96 h-screen overflow-scroll p-2 ">
+    <ul className="w-96 h-[500px] overflow-scroll p-2 ">
       {localFiles &&
         localFiles?.map((file, index) => (
           <li
