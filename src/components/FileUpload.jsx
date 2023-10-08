@@ -42,7 +42,7 @@ const FileUpload = () => {
   };
   const downloadFile = async (fileName) => {
     const response = await axios.get(
-      `https://file-upload-cloud-production.up.railway.app//api/file/download/${fileName}`,
+      `https://file-upload-cloud-production.up.railway.app/api/file/download/${fileName}`,
       { responseType: "arraybuffer" }
     );
 
