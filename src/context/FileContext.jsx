@@ -26,11 +26,11 @@ export const FileContextProvider = ({ children }) => {
       const result = await axios.get(
         "https://file-upload-cloud-production.up.railway.app/api/file/getAllFiles"
       );
-      const totalSize = await getTotalSize();
       setTotalSize(totalSize);
       if (result) {
         setFiles(result.data);
       }
+      const totalSize = await getTotalSize();
     } catch (error) {
       console.log("No files found");
     }
