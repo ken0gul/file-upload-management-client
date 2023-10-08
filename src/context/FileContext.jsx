@@ -74,6 +74,19 @@ export const FileContextProvider = ({ children }) => {
 
     setIsDeletionComplete(true);
   };
+
+  const getSingleFileInfo = async (fileName) => {
+    try {
+      const response = await axios.get(
+        "https://file-upload-management-api-production.up.railway.app/api/file/getFileInfo/" +
+          fileName
+      );
+      if (response?.data) {
+        return response.data;
+      }
+    } catch (error) {}
+  };
+
   const values = {
     uploadFiles,
     uploadProgress,
@@ -83,6 +96,7 @@ export const FileContextProvider = ({ children }) => {
     deleteFile,
     isDeletionComplete,
     setFiles,
+    getSingleFileInfo,
   };
 
   return <FileContext.Provider value={values}>{children}</FileContext.Provider>;

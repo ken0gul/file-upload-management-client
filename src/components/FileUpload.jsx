@@ -14,6 +14,7 @@ const FileUpload = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   useEffect(() => {
     getAllFiles();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
@@ -67,11 +68,12 @@ const FileUpload = () => {
     },
     multiple: true,
   });
+
   return (
     <div className=" flex justify-start bg-slate-100 items-center h-screen flex-col">
       <div
         {...getRootProps()}
-        className={`border-dashed border-4 p-4 rounded-lg mt-10 m-10 ${
+        className={`border-dashed border-4 md:text-2xl p-4 rounded-lg mt-10 m-10 ${
           isDragActive ? "border-blue-500 bg-blue-100" : "border-gray-300"
         }`}
       >
@@ -85,7 +87,7 @@ const FileUpload = () => {
         )}
       </div>
       <ProgressBar />
-      <ul className="w-72">
+      <ul className="w-72 ">
         {localFiles &&
           localFiles?.map((file, index) => (
             <li
@@ -100,9 +102,9 @@ const FileUpload = () => {
                     : "none",
                 background: draggedItem && draggedItem === file ? "gray" : "",
               }}
-              className="flex items-center   justify-between gap-2 cursor-pointer"
+              className="flex items-center mb-2 justify-between gap-2 cursor-pointer"
             >
-              <div className="flex gap-2">
+              <div className="flex items-center  gap-2 md:text-2xl">
                 <FcCheckmark size={20} />
                 <span>
                   {file.split("*")[1].split(".")[0].substring(0, 15) +
